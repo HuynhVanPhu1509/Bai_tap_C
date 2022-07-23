@@ -1,33 +1,32 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 #include<math.h>
 #include<stdlib.h>
-int _Atoi(char *str)
+int Test_Atoi(char *str)
 { 
 	char buffer[32] = { 0 };
-	strcpy(buffer, str);
 	int val = 0;
 	int index = 0;
 	while (str[index] > 47 && str[index] < 58)
 	{
-		buffer[index] = buffer[index] - 48;
+		buffer[index] = str[index] - 48;
 		index++;
 	}
 	index--;
 	for (int i = index; i >= 0; i--)
 	{
-		val += (long)buffer[index - i] * pow(10, i);
+		val += (int)(buffer[index - i] * pow(10, i));
 	}
 	return val;
 }
-double _Atof(char *str)
+double Test_Atof(char *str)
 {
 	char buffer[32] = { 0 };
-	strcpy(buffer, str);
 	double val = 0;
 	int index = 0;
 	while (str[index] > 47 && str[index] < 58 || str[index] == 46)
 	{
-		buffer[index] = buffer[index] - 48;
+		buffer[index] = str[index] - 48;
 		index++;
 	}
 	index = 0;
@@ -49,7 +48,7 @@ double _Atof(char *str)
 	}
 	return val;
 }
-double _Strtod(const char *str, char **endptr)
+double Test_Strtod(char *str, char **endptr)
 {
 	double val = 0;
 	int index = 0;
@@ -60,13 +59,13 @@ double _Strtod(const char *str, char **endptr)
 		{
 			index++;
 		}
-		val = _Atof(str);
+		val = Test_Atof(str);
 		*endptr = &str[index];
 	}
 	else val='\0';
 	return val;
 }
-float _Strtof(char *str, char **endptr)
+float Test_Strtof(char *str, char **endptr)
 {
 	float val = 0;
 	int index = 0;
@@ -76,7 +75,7 @@ float _Strtof(char *str, char **endptr)
 		{
 			index++;
 		}
-		val = (float)_Atof(str);
+		val = (float)Test_Atof(str);
 		if (str[index] != '\0')
 		{
 			index++;
@@ -85,7 +84,7 @@ float _Strtof(char *str, char **endptr)
 	}
 	return val;
 }
-void _Itoa(int Value, char *buffer, int _Radix)
+void Test_Itoa(int Value, char *buffer, int _Radix)
 {
 	int index = 0;
 	int temp = 0;
@@ -182,19 +181,19 @@ void _Itoa(int Value, char *buffer, int _Radix)
 		break;
 	}
 }
-char* _Strtok(char str[], char* keyseach)
+char* Test_Strtok(char str[], char keyseach)
 {
-	(char)str;
 	int index = 0;
-	while (str[index] != '\0')
+	while((str+index)!='\0')
 	{
 		if (str[index] == keyseach)
 		{
 			str[index] = NULL;
-			return &str[index-index];
+			break;
 		}
 		index++;
-	} 
+	}
+	return &str[index];
 }
 int main()
 {
@@ -203,30 +202,31 @@ int main()
 	char str2[] = "Hello! we are learn strtok";
 	char *str4 = "123456.783 xin chao cac ban";
 	char *str5 = "56.98 45.98";
-	int ret = _Atoi(str1);
+	int ret = Test_Atoi(str1);
 	printf("chuoi sau khi chuyen sang so nguyen: %d\r\n", ret);
-	float ret_f =(float) _Atof(str);
+	float ret_f =(float) Test_Atof(str);
 	printf("chuoi sau khi chuyen sang so thuc: %f\r\n", ret_f);
 	double val = 0;
 	char* ptr = '\0';
-	val = _Strtod(str4, &ptr);
+	val = Test_Strtod(str4, &ptr);
 	printf("phan so: %f, phan chuoi: %s\r\n", val,ptr);
 	char *ptr2 = '\0';
-	float val1 = _Strtof(str5, &ptr2);
-	float val2 = _Strtof(ptr2, NULL);
+	float val1 = Test_Strtof(str5, &ptr2);
+	float val2 = Test_Strtof(ptr2, NULL);
 	printf("phan so thu 1: %f, phan so thu 2: %f\r\n", val1, val2);
 	char buffer[32] = { 0 };
-	_Itoa(3453871, buffer, 16);
+	Test_Itoa(3453871, buffer, 16);
 	printf("so thuc chuyen sang mang co so 16: %s\r\n", buffer);
-	_Itoa(3453871, buffer, 10);
+	Test_Itoa(3453871, buffer, 10);
 	printf("so thuc chuyen sang mang co so 10: %s\r\n", buffer);
-	_Itoa(3453871, buffer, 2);
+	Test_Itoa(3453871, buffer, 2);
 	printf("so thuc chuyen sang mang co so 2: %s\r\n", buffer);
-	char *token = _Strtok(str2, ' ');
+	/*char* token;
+	token = Test_Strtok(str2, ' ');
 	while (token != NULL)
 	{
-		printf("%s\r\n", token);
-		token = _Strtok(NULL, ' ');
-	}
+		printf("%s \r\n", token);
+		token = Test_Strtok(NULL, ' ');
+	}*/
 	return 0;
 }
